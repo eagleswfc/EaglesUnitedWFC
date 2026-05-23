@@ -1,0 +1,73 @@
+---
+import { navLinks } from '../lib/navigation';
+import SocialLinks from './SocialLinks.astro';
+import type { SiteSettings } from '../lib/types';
+
+interface Props {
+  settings: SiteSettings;
+}
+
+const { settings } = Astro.props;
+const email = settings.contactEmail ?? 'eaglesuniteduk@gmail.com';
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-white/10 bg-charcoal-light">
+  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-3 lg:px-8">
+    <div class="space-y-4">
+      <a href="/" class="inline-flex items-center gap-3">
+        <img
+          src="/images/eaglesunitedwfc_logo.jpg"
+          alt="Eagles United WFC"
+          width="64"
+          height="64"
+          class="h-16 w-16 rounded-full ring-2 ring-white/15"
+          loading="lazy"
+        />
+        <div>
+          <p class="text-sm font-bold tracking-[0.18em]">EAGLES UNITED WFC</p>
+          <p class="text-xs text-white/60">Est. 2024 · Haringey, London</p>
+        </div>
+      </a>
+      <p class="max-w-sm text-sm text-white/70">
+        Women's football in Haringey. Open training every Thursday — all abilities welcome.
+      </p>
+    </div>
+
+    <div>
+      <h2 class="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-eagles-red">Explore</h2>
+      <ul class="space-y-2 text-sm">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a href={link.href} class="text-white/75 transition hover:text-white">
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="space-y-4">
+      <h2 class="text-xs font-bold uppercase tracking-[0.2em] text-eagles-red">Contact</h2>
+      <p class="text-sm text-white/75">
+        <a href={`mailto:${email}`} class="transition hover:text-white">{email}</a>
+      </p>
+      {
+        settings.contactPhone && (
+          <p class="text-sm text-white/75">
+            <a href={`tel:${settings.contactPhone}`} class="transition hover:text-white">
+              {settings.contactPhone}
+            </a>
+          </p>
+        )
+      }
+      <SocialLinks links={settings.socialLinks} />
+    </div>
+  </div>
+
+  <div class="border-t border-white/10 py-4 text-center text-xs text-white/50">
+    <p>© {year} Eagles United WFC. FA Affiliated{settings.faAffiliationId ? ` · ID ${settings.faAffiliationId}` : ''}.</p>
+  </div>
+</footer>

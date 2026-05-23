@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GalleryCarousel from '../components/GalleryCarousel';
+import SectionHeading from '../components/SectionHeading.astro';
+import { getGallery, getGalleryCarouselImages, getSiteSettings } from '../lib/content';
+
+const settings = await getSiteSettings();
+const gallery = await getGallery();
+const images = await getGalleryCarouselImages();
+---
+
+<BaseLayout
+  title="Gallery | Eagles United WFC"
+  description="Photos from training, matches and tournaments with Eagles United WFC in Haringey."
+  settings={settings}
+>
+  <section class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8">
+    <SectionHeading
+      eyebrow="Club Life"
+      title={gallery.title ?? 'Gallery'}
+      subtitle={gallery.description}
+    />
+
+    <div class="mt-10">
+      <GalleryCarousel client:load images={images} />
+    </div>
+  </section>
+</BaseLayout>

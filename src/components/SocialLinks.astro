@@ -1,0 +1,35 @@
+---
+import type { SocialLink } from '../lib/types';
+
+interface Props {
+  links?: SocialLink[];
+}
+
+const { links = [] } = Astro.props;
+
+const labels: Record<string, string> = {
+  instagram: 'Instagram',
+  facebook: 'Facebook',
+  twitter: 'X',
+  tiktok: 'TikTok',
+  youtube: 'YouTube',
+  other: 'Link',
+};
+---
+
+{
+  links.length > 0 && (
+    <div class="flex flex-wrap gap-2">
+      {links.map((link) => (
+        <a
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="rounded-full border border-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white/80 transition hover:border-eagles-red hover:text-white"
+        >
+          {link.label ?? labels[link.platform] ?? 'Social'}
+        </a>
+      ))}
+    </div>
+  )
+}

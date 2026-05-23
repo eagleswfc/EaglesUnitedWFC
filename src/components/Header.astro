@@ -1,0 +1,59 @@
+---
+import { navLinks } from '../lib/navigation';
+import type { SiteSettings } from '../lib/types';
+
+interface Props {
+  settings: SiteSettings;
+  currentPath: string;
+}
+
+const { settings, currentPath } = Astro.props;
+const siteTitle = settings.siteTitle ?? 'Eagles United WFC';
+---
+
+<header class="sticky top-0 z-40 border-b border-white/10 bg-charcoal/95 backdrop-blur-md">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-4 sm:px-6 lg:px-8">
+    <a href="/" class="group flex items-center gap-3" aria-label={`${siteTitle} home`}>
+      <img
+        src="/images/EaglesUnitedWFC_Logo.png"
+        alt={`${siteTitle} logo`}
+        width="56"
+        height="56"
+        class="h-12 w-12 rounded-full ring-2 ring-white/20 transition group-hover:ring-eagles-red sm:h-14 sm:w-14"
+        loading="eager"
+      />
+      <span class="hidden text-sm font-bold tracking-[0.2em] text-white sm:inline lg:text-base">
+        EAGLES UNITED
+      </span>
+    </a>
+
+    <nav aria-label="Main navigation">
+      <ul class="flex items-center gap-1 sm:gap-2">
+        {
+          navLinks.map((link) => {
+            const isActive =
+              link.href === '/'
+                ? currentPath === '/'
+                : currentPath.startsWith(link.href);
+            return (
+              <li>
+                <a
+                  href={link.href}
+                  class:list={[
+                    'rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-wide transition sm:px-4 sm:text-sm',
+                    isActive
+                      ? 'bg-eagles-red text-white'
+                      : 'text-white/80 hover:bg-white/10 hover:text-white',
+                  ]}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  {link.label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

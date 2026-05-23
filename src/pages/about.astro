@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { blocksToParagraphs, getAboutPage, getSiteSettings } from '../lib/content';
+
+const settings = await getSiteSettings();
+const about = await getAboutPage();
+const storyParagraphs = blocksToParagraphs(about.story);
+const achievementParagraphs = blocksToParagraphs(about.achievements);
+---
+
+<BaseLayout
+  title="About Eagles United WFC"
+  description="Community women's football club in Haringey — open, affordable and empowering."
+  settings={settings}
+>
+  <section class="border-b border-white/10 bg-charcoal-light/30 py-14 sm:py-20">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <SectionHeading eyebrow="About" title={about.pageTitle ?? 'Our Story'} align="left" />
+      <div class="mt-8 space-y-5 text-base leading-relaxed text-white/85 sm:text-lg">
+        {
+          storyParagraphs.map((paragraph) => <p>{paragraph}</p>)
+        }
+        {about.missionStatement && <p class="font-medium text-white">{about.missionStatement}</p>}
+        {about.coachNote && <p>{about.coachNote}</p>}
+        {about.trainingNote && <p>{about.trainingNote}</p>}
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+    <SectionHeading title="Our Values" />
+    <div class="mt-10 grid gap-6 md:grid-cols-3">
+      {
+        about.values?.map((value) => (
+          <article class="rounded-2xl border border-white/10 bg-charcoal-light/70 p-6">
+            <h3 class="mb-3 text-lg font-bold text-eagles-red">{value.title}</h3>
+            <p class="text-sm leading-relaxed text-white/80 sm:text-base">{value.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="border-t border-white/10 bg-charcoal-light/30 py-16">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <SectionHeading
+        title={about.achievementsTitle ?? 'Leagues and achievements'}
+        align="left"
+      />
+      <div class="mt-8 space-y-5 text-base leading-relaxed text-white/85 sm:text-lg">
+        {
+          achievementParagraphs.map((paragraph) => <p>{paragraph}</p>)
+        }
+      </div>
+      <p class="mt-8 text-sm text-white/60">
+        Follow our progress in the
+        <a
+          href="https://citygoalslondon.leaguerepublic.com/index.html"
+          class="ml-1 text-eagles-red underline-offset-2 hover:underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          All Nation's 8aside league
+        </a>
+        and the
+        <a
+          href="https://www.super5league.com/"
+          class="ml-1 text-eagles-red underline-offset-2 hover:underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Super5 league
+        </a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
