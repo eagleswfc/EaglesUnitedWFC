@@ -8,7 +8,6 @@ interface Props {
 
 const { sponsors = [] } = Astro.props;
 
-const fallbackSponsors = ['Specsavers', 'Haringey London', 'Sported'];
 const hasSanitySponsors = sponsors.length > 0;
 ---
 
@@ -45,14 +44,31 @@ const hasSanitySponsors = sponsors.length > 0;
         })}
       </ul>
     ) : (
-      <ul class="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
-        {fallbackSponsors.map((name) => (
-          <li>
-            <span class="text-sm font-bold uppercase tracking-[0.15em] text-white/70 sm:text-base">
-              {name}
-            </span>
-          </li>
-        ))}
+      <ul class="flex flex-wrap items-center justify-center gap-8">
+        <li>
+          <img
+            src="/specsavers.avif"
+            alt="Specsavers logo"
+            class="h-14 w-auto max-w-[160px] object-contain opacity-80 transition hover:opacity-100"
+            loading="lazy"
+          />
+        </li>
+        <li>
+          <img
+            src="/haringey.avif"
+            alt="Haringey London logo"
+            class="h-14 w-auto max-w-[160px] object-contain opacity-80 transition hover:opacity-100"
+            loading="lazy"
+          />
+        </li>
+        <li>
+          <img
+            src="/sported.avif"
+            alt="Sported logo"
+            class="h-14 w-auto max-w-[160px] object-contain opacity-80 transition hover:opacity-100"
+            loading="lazy"
+          />
+        </li>
       </ul>
     )
   }
