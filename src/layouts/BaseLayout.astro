@@ -36,7 +36,7 @@ const pageTitle = title.includes('Eagles United') ? title : `${title} | Eagles U
     <title>{pageTitle}</title>
   </head>
   <body class="flex min-h-screen flex-col">
-    <Header settings={settings} currentPath={Astro.url.pathname} />
+    <Header settings={settings} />
     <main class="flex-1">
       <slot />
     </main>

@@ -55,49 +55,7 @@ const achievementParagraphs = blocksToParagraphs(about.achievements);
         <p class="text-lg text-white/80 sm:text-xl">{home.heroSubtitle}</p>
       </div>
       <div class="flex flex-wrap items-center justify-center gap-3">
-        <a
-          href="#contact"
-          class="rounded-full bg-eagles-red px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-eagles-red-dark"
-        >
-          Get in Touch
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-    <div class="grid gap-6 md:grid-cols-3">
-      <InfoCard
-        title={home.trainingHeading ?? 'Training'}
-        body={multilineToHtml(home.trainingDetails)}
-      />
-      <InfoCard
-        title={home.ageGroupHeading ?? 'Age Group'}
-        body={multilineToHtml(home.ageGroupDetails)}
-      />
-      <InfoCard
-        title={home.priceHeading ?? 'Price'}
-        body={multilineToHtml(home.priceDetails)}
-      />
-    </div>
-  </section>
-
-  <section class="border-y border-white/10 bg-charcoal-light/40 py-16">
-    <div class="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
-      <SectionHeading title={home.ctaHeading ?? 'Ready to join?'} subtitle={home.ctaText} />
-      <div class="mt-8 flex flex-wrap justify-center gap-3">
-        <a
-          href="#contact"
-          class="rounded-full bg-eagles-red px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-eagles-red-dark"
-        >
-          Contact Us
-        </a>
-        <a
-          href="#about"
-          class="rounded-full border border-white/20 px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-white/5"
-        >
-          Our Story
-        </a>
+        
       </div>
     </div>
   </section>
@@ -162,6 +120,37 @@ const achievementParagraphs = blocksToParagraphs(about.achievements);
             Super5 league
           </a>.
         </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+    <div class="grid gap-6 md:grid-cols-3">
+      <InfoCard
+        title={home.trainingHeading ?? 'Training'}
+        body={multilineToHtml(home.trainingDetails)}
+      />
+      <InfoCard
+        title={home.ageGroupHeading ?? 'Age Group'}
+        body={multilineToHtml(home.ageGroupDetails)}
+      />
+      <InfoCard
+        title={home.priceHeading ?? 'Price'}
+        body={multilineToHtml(home.priceDetails)}
+      />
+    </div>
+  </section>
+
+  <section class="border-y border-white/10 bg-charcoal-light/40 py-16">
+    <div class="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
+      <SectionHeading title={home.ctaHeading ?? 'Ready to join?'} subtitle={home.ctaText} />
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a
+          href="#contact"
+          class="rounded-full bg-eagles-red px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-eagles-red-dark"
+        >
+          Contact Us
+        </a>
       </div>
     </div>
   </section>
@@ -244,8 +233,7 @@ const achievementParagraphs = blocksToParagraphs(about.achievements);
       </div>
 
       <div>
-        <h2 class="mb-4 text-xl font-bold">Send a Message</h2>
-        <ContactForm email={email} />
+        <ContactForm />
       </div>
     </div>
   </section>

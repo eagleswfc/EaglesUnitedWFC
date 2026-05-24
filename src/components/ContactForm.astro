@@ -1,16 +1,12 @@
----
-interface Props {
-  email: string;
-}
-
-const { email } = Astro.props;
----
-
 <form
   id="contact-form"
   class="space-y-5 rounded-2xl border border-white/10 bg-charcoal-light/80 p-6 sm:p-8"
   novalidate
 >
+  <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
+  <input type="checkbox" name="botcheck" class="hidden" style="display: none;" />
+
+  <h2 class="text-xl font-bold text-white">Send a Message</h2>
   <div class="grid gap-5 sm:grid-cols-2">
     <label class="block space-y-2 text-sm">
       <span class="font-semibold text-white/90">Name</span>
@@ -47,24 +43,45 @@ const { email } = Astro.props;
 
   <button
     type="submit"
+    id="contact-submit-btn"
     class="inline-flex w-full items-center justify-center rounded-full bg-eagles-red px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-eagles-red-dark sm:w-auto"
   >
     Send Message
   </button>
 </form>
 
-<script define:vars={{ email }}>
-  const form = document.getElementById('contact-form');
-  form?.addEventListener('submit', (event) => {
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const submitBtn = document.getElementById('contact-submit-btn') as HTMLButtonElement | null;
+
+  form?.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const data = new FormData(form);
-    const name = data.get('name');
-    const from = data.get('from');
-    const message = data.get('message');
-    const subject = encodeURIComponent('Eagles United WFC enquiry');
-    const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${from}\n\n${message}`,
-    );
-    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+    if (!submitBtn) return;
+
+    const defaultText = 'Send Message';
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: new FormData(form),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        submitBtn.textContent = 'Message Sent!';
+        submitBtn.classList.remove('bg-eagles-red', 'hover:bg-eagles-red-dark');
+        submitBtn.classList.add('bg-green-600');
+        form.reset();
+      } else {
+        submitBtn.textContent = defaultText;
+      }
+    } catch {
+      submitBtn.textContent = defaultText;
+    } finally {
+      submitBtn.disabled = false;
+    }
   });
 </script>
