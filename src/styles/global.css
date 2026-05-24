@@ -6,6 +6,18 @@
   --color-eagles-red: #e11d48;
   --color-eagles-red-dark: #be123c;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --animate-heartbeat: heartbeat 3s ease-in-out infinite;
+
+  @keyframes heartbeat {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
 }
 
 @layer base {
