@@ -61,45 +61,43 @@ export default function GalleryCarousel({ images }: GalleryCarouselProps) {
 
   return (
     <>
-      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-charcoal-light shadow-2xl shadow-black/40">
-        <div className="relative aspect-[16/10] w-full bg-black/40 sm:aspect-[16/9]">
-          <img
-            key={active.id}
-            src={active.src}
-            alt={active.alt}
-            className="h-full w-full cursor-zoom-in object-cover transition-opacity duration-500"
-            onDoubleClick={() => setLightboxOpen(true)}
-            draggable={false}
-          />
+      <div className="flex items-center gap-3 sm:gap-6">
+        {/* Previous Button (Moved Outside) */}
+        <button
+          type="button"
+          onClick={goPrev}
+          className="flex shrink-0 h-10 w-10 sm:h-14 sm:w-14 items-center justify-center rounded-full border-2 border-white/30 bg-charcoal/90 text-2xl sm:text-3xl font-bold text-white shadow-lg transition hover:border-eagles-red hover:bg-eagles-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          aria-label="Previous image"
+        >
+          ‹
+        </button>
 
-          <button
-            type="button"
-            onClick={goPrev}
-            className="absolute left-3 top-1/2 z-10 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white/30 bg-charcoal/90 text-3xl font-bold text-white shadow-lg transition hover:border-eagles-red hover:bg-eagles-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:left-5"
-            aria-label="Previous image"
-          >
-            ‹
-          </button>
-
-          <button
-            type="button"
-            onClick={goNext}
-            className="absolute right-3 top-1/2 z-10 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white/30 bg-charcoal/90 text-3xl font-bold text-white shadow-lg transition hover:border-eagles-red hover:bg-eagles-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:right-5"
-            aria-label="Next image"
-          >
-            ›
-          </button>
+        {/* Image Container */}
+        <div className="relative flex-1 overflow-hidden rounded-2xl border border-white/10 bg-charcoal-light shadow-2xl shadow-black/40">
+          <div className="relative aspect-[16/10] w-full bg-black/40 sm:aspect-[16/9]">
+            <img
+              key={active.id}
+              src={active.src}
+              alt={active.alt}
+              className="h-full w-full cursor-zoom-in object-cover transition-opacity duration-500"
+              onDoubleClick={() => setLightboxOpen(true)}
+              draggable={false}
+            />
+          </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/10 px-4 py-4 sm:px-6">
-          <p className="text-sm text-white/80">
-            <span className="font-semibold text-white">{index + 1}</span> / {total}
-            {active.caption ? <span className="text-white/60"> · {active.caption}</span> : null}
-          </p>
-          <p className="text-xs text-white/50">Double-click the image to enlarge</p>
-        </div>
+        {/* Next Button (Moved Outside) */}
+        <button
+          type="button"
+          onClick={goNext}
+          className="flex shrink-0 h-10 w-10 sm:h-14 sm:w-14 items-center justify-center rounded-full border-2 border-white/30 bg-charcoal/90 text-2xl sm:text-3xl font-bold text-white shadow-lg transition hover:border-eagles-red hover:bg-eagles-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          aria-label="Next image"
+        >
+          ›
+        </button>
       </div>
 
+      {/* Lightbox Overlay (Unchanged) */}
       {lightboxOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
