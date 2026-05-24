@@ -31,14 +31,18 @@ const siteTitle = settings.siteTitle ?? 'Eagles United WFC';
       <ul class="flex items-center gap-1 sm:gap-2">
         {
           navLinks.map((link) => {
+            const isHashLink = link.href.startsWith('#');
             const isActive =
               link.href === '/'
                 ? currentPath === '/'
-                : currentPath.startsWith(link.href);
+                : isHashLink
+                  ? false
+                  : currentPath.startsWith(link.href);
             return (
               <li>
                 <a
                   href={link.href}
+                  data-nav-link={isHashLink ? link.href : undefined}
                   class:list={[
                     'rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-wide transition sm:px-4 sm:text-sm',
                     isActive
@@ -57,3 +61,21 @@ const siteTitle = settings.siteTitle ?? 'Eagles United WFC';
     </nav>
   </div>
 </header>
+
+<script>
+  function updateNavActiveState() {
+    const hash = window.location.hash;
+    const links = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
+
+    links.forEach((link) => {
+      const isActive = link.dataset.navLink === hash;
+      link.classList.toggle('bg-eagles-red', isActive);
+      link.classList.toggle('text-white', isActive);
+      link.classList.toggle('text-white/80', !isActive);
+      link.toggleAttribute('aria-current', isActive ? true : false);
+    });
+  }
+
+  updateNavActiveState();
+  window.addEventListener('hashchange', updateNavActiveState);
+</script>

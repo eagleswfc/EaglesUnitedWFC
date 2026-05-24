@@ -13,6 +13,10 @@
     scroll-behavior: smooth;
   }
 
+  section[id] {
+    scroll-margin-top: 5rem;
+  }
+
   body {
     @apply bg-charcoal text-white antialiased;
     font-family: var(--font-sans);

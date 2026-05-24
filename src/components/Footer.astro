@@ -1,6 +1,6 @@
 ---
+import { defaultSocialLinks } from '../lib/fallbacks';
 import { navLinks } from '../lib/navigation';
-import SocialLinks from './SocialLinks.astro';
 import type { SiteSettings } from '../lib/types';
 
 interface Props {
@@ -10,10 +10,20 @@ interface Props {
 const { settings } = Astro.props;
 const email = settings.contactEmail ?? 'eaglesuniteduk@gmail.com';
 const year = new Date().getFullYear();
+
+const socialLabels: Record<string, string> = {
+  facebook: 'Facebook',
+  instagram: 'Instagram',
+  linkedin: 'LinkedIn',
+  tiktok: 'TikTok',
+};
+
+const socialLinks =
+  settings.socialLinks?.length ? settings.socialLinks : defaultSocialLinks;
 ---
 
 <footer class="border-t border-white/10 bg-charcoal-light">
-  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-3 lg:px-8">
+  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 sm:grid-cols-2 lg:grid-cols-4 lg:px-8">
     <div class="space-y-4">
       <a href="/" class="inline-flex items-center gap-3">
         <img
@@ -49,6 +59,26 @@ const year = new Date().getFullYear();
       </ul>
     </div>
 
+    <div>
+      <h2 class="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-eagles-red">Follow Us</h2>
+      <ul class="space-y-2 text-sm">
+        {
+          socialLinks.map((link) => (
+            <li>
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-white/75 transition hover:text-white"
+              >
+                {link.label ?? socialLabels[link.platform] ?? 'Social'}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
     <div class="space-y-4">
       <h2 class="text-xs font-bold uppercase tracking-[0.2em] text-eagles-red">Contact</h2>
       <p class="text-sm text-white/75">
@@ -63,7 +93,6 @@ const year = new Date().getFullYear();
           </p>
         )
       }
-      <SocialLinks links={settings.socialLinks} />
     </div>
   </div>
 

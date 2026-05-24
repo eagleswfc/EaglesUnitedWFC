@@ -7,41 +7,54 @@ interface Props {
 }
 
 const { sponsors = [] } = Astro.props;
+
+const fallbackSponsors = ['Specsavers', 'Haringey London', 'Sported'];
+const hasSanitySponsors = sponsors.length > 0;
 ---
 
-{
-  sponsors.length > 0 && (
-    <section class="border-t border-white/10 bg-charcoal-light/50 py-14">
-      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <h2 class="mb-8 text-center text-xs font-bold uppercase tracking-[0.25em] text-white/60">
-          Proudly Supported By
-        </h2>
-        <ul class="flex flex-wrap items-center justify-center gap-8">
-          {sponsors.map((sponsor) => {
-            const logoSrc = imageUrl(sponsor.logo, { width: 200, quality: 90 });
-            if (!logoSrc) return null;
-            const content = (
-              <img
-                src={logoSrc}
-                alt={sponsor.name ?? 'Sponsor logo'}
-                class="h-14 w-auto max-w-[160px] object-contain opacity-80 transition hover:opacity-100"
-                loading="lazy"
-              />
-            );
-            return (
-              <li>
-                {sponsor.url ? (
-                  <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
-                    {content}
-                  </a>
-                ) : (
-                  content
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    </section>
-  )
-}
+<div class="border-t border-white/10 bg-charcoal-light/50 py-14">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <h2 class="mb-8 text-center text-xs font-bold uppercase tracking-[0.25em] text-white/60">
+      Proudly Supported By
+    </h2>
+  {
+    hasSanitySponsors ? (
+      <ul class="flex flex-wrap items-center justify-center gap-8">
+        {sponsors.map((sponsor) => {
+          const logoSrc = imageUrl(sponsor.logo, { width: 200, quality: 90 });
+          if (!logoSrc) return null;
+          const content = (
+            <img
+              src={logoSrc}
+              alt={sponsor.name ?? 'Sponsor logo'}
+              class="h-14 w-auto max-w-[160px] object-contain opacity-80 transition hover:opacity-100"
+              loading="lazy"
+            />
+          );
+          return (
+            <li>
+              {sponsor.url ? (
+                <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
+                  {content}
+                </a>
+              ) : (
+                content
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    ) : (
+      <ul class="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
+        {fallbackSponsors.map((name) => (
+          <li>
+            <span class="text-sm font-bold uppercase tracking-[0.15em] text-white/70 sm:text-base">
+              {name}
+            </span>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+  </div>
+</div>

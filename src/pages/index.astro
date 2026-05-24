@@ -1,14 +1,32 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import GalleryCarousel from '../components/GalleryCarousel';
 import InfoCard from '../components/InfoCard.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import Sponsors from '../components/Sponsors.astro';
-import { getHomePage, getSiteSettings, multilineToHtml } from '../lib/content';
+import { defaultContact } from '../lib/fallbacks';
+import {
+  blocksToParagraphs,
+  getAboutPage,
+  getGallery,
+  getGalleryCarouselImages,
+  getHomePage,
+  getSiteSettings,
+  multilineToHtml,
+} from '../lib/content';
 
 const settings = await getSiteSettings();
 const home = await getHomePage();
+const about = await getAboutPage();
+const gallery = await getGallery();
+const images = await getGalleryCarouselImages();
+
 const email = settings.contactEmail ?? 'eaglesuniteduk@gmail.com';
+const address = settings.address ?? defaultContact.location;
+const storyParagraphs = blocksToParagraphs(about.story);
+const achievementParagraphs = blocksToParagraphs(about.achievements);
 ---
 
 <BaseLayout
@@ -38,16 +56,10 @@ const email = settings.contactEmail ?? 'eaglesuniteduk@gmail.com';
       </div>
       <div class="flex flex-wrap items-center justify-center gap-3">
         <a
-          href="/contact"
+          href="#contact"
           class="rounded-full bg-eagles-red px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-eagles-red-dark"
         >
           Get in Touch
-        </a>
-        <a
-          href={`mailto:${email}`}
-          class="rounded-full border border-white/20 px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:border-white hover:bg-white/5"
-        >
-          Email Us
         </a>
       </div>
     </div>
@@ -75,13 +87,13 @@ const email = settings.contactEmail ?? 'eaglesuniteduk@gmail.com';
       <SectionHeading title={home.ctaHeading ?? 'Ready to join?'} subtitle={home.ctaText} />
       <div class="mt-8 flex flex-wrap justify-center gap-3">
         <a
-          href="/contact"
+          href="#contact"
           class="rounded-full bg-eagles-red px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-eagles-red-dark"
         >
           Contact Us
         </a>
         <a
-          href="/about"
+          href="#about"
           class="rounded-full border border-white/20 px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-white/5"
         >
           Our Story
@@ -90,12 +102,152 @@ const email = settings.contactEmail ?? 'eaglesuniteduk@gmail.com';
     </div>
   </section>
 
-  <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
-    <SectionHeading eyebrow="Community" title="Stay Connected" />
-    <div class="mt-8 flex justify-center">
-      <SocialLinks links={settings.socialLinks} />
+  <section id="about">
+    <div class="border-b border-white/10 bg-charcoal-light/30 py-14 sm:py-20">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <SectionHeading eyebrow="About" title={about.pageTitle ?? 'Our Story'} align="left" />
+        <div class="mt-8 space-y-5 text-base leading-relaxed text-white/85 sm:text-lg">
+          {
+            storyParagraphs.map((paragraph) => <p>{paragraph}</p>)
+          }
+          {about.missionStatement && <p class="font-medium text-white">{about.missionStatement}</p>}
+          {about.coachNote && <p>{about.coachNote}</p>}
+          {about.trainingNote && <p>{about.trainingNote}</p>}
+        </div>
+      </div>
+    </div>
+
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+      <SectionHeading title="Our Values" />
+      <div class="mt-10 grid gap-6 md:grid-cols-3">
+        {
+          about.values?.map((value) => (
+            <article class="rounded-2xl border border-white/10 bg-charcoal-light/70 p-6">
+              <h3 class="mb-3 text-lg font-bold text-eagles-red">{value.title}</h3>
+              <p class="text-sm leading-relaxed text-white/80 sm:text-base">{value.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="border-t border-white/10 bg-charcoal-light/30 py-16">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          title={about.achievementsTitle ?? 'Leagues and achievements'}
+          align="left"
+        />
+        <div class="mt-8 space-y-5 text-base leading-relaxed text-white/85 sm:text-lg">
+          {
+            achievementParagraphs.map((paragraph) => <p>{paragraph}</p>)
+          }
+        </div>
+        <p class="mt-8 text-sm text-white/60">
+          Follow our progress in the
+          <a
+            href="https://citygoalslondon.leaguerepublic.com/index.html"
+            class="ml-1 text-eagles-red underline-offset-2 hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            All Nation's 8aside league
+          </a>
+          and the
+          <a
+            href="https://www.super5league.com/"
+            class="ml-1 text-eagles-red underline-offset-2 hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Super5 league
+          </a>.
+        </p>
+      </div>
     </div>
   </section>
 
-  <Sponsors sponsors={settings.sponsors} />
+  <section id="news" class="border-y border-white/10 bg-charcoal-light/30 py-16">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <SectionHeading
+        eyebrow="Latest"
+        title="Club News"
+        subtitle="Updates from training, matches and the Eagles United community."
+      />
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          Array.from({ length: 3 }).map((_, index) => (
+            <article class="flex flex-col rounded-2xl border border-white/10 bg-charcoal-light/70 p-6">
+              <p class="text-xs font-bold uppercase tracking-[0.2em] text-eagles-red">
+                Coming soon
+              </p>
+              <h3 class="mt-3 text-lg font-bold text-white">News story {index + 1}</h3>
+              <p class="mt-3 flex-1 text-sm leading-relaxed text-white/70">
+                Club news and match reports will appear here once published.
+              </p>
+              <span class="mt-6 inline-block text-xs font-semibold uppercase tracking-wide text-white/40">
+                Placeholder
+              </span>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery" class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8">
+    <SectionHeading
+      eyebrow="Club Life"
+      title={gallery.title ?? 'Gallery'}
+      subtitle={gallery.description}
+    />
+
+    <div class="mt-10">
+      <GalleryCarousel client:load images={images} />
+    </div>
+  </section>
+
+  <section id="sponsors">
+    <Sponsors sponsors={settings.sponsors} />
+  </section>
+
+  <section id="contact">
+    <div class="border-b border-white/10 bg-charcoal-light/30 py-14 sm:py-20">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          eyebrow="Contact"
+          title={defaultContact.pageTitle}
+          subtitle={defaultContact.intro}
+        />
+      </div>
+    </div>
+
+    <div class="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-2 lg:px-8">
+      <div class="space-y-8">
+        <article class="rounded-2xl border border-white/10 bg-charcoal-light/70 p-6">
+          <h2 class="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-eagles-red">Location</h2>
+          <div class="text-sm leading-relaxed text-white/85 sm:text-base" set:html={multilineToHtml(address)} />
+        </article>
+
+        <article class="rounded-2xl border border-white/10 bg-charcoal-light/70 p-6">
+          <h2 class="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-eagles-red">Email</h2>
+          <a href={`mailto:${email}`} class="text-base font-medium text-white hover:text-eagles-red">
+            {email}
+          </a>
+        </article>
+
+        <article class="rounded-2xl border border-white/10 bg-charcoal-light/70 p-6">
+          <h2 class="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-eagles-red">
+            Training Times
+          </h2>
+          <p class="text-sm text-white/85 sm:text-base">{defaultContact.trainingTimes}</p>
+        </article>
+      </div>
+
+      <div>
+        <h2 class="mb-4 text-xl font-bold">Send a Message</h2>
+        <ContactForm email={email} />
+      </div>
+    </div>
+  </section>
+
 </BaseLayout>

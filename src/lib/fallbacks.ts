@@ -1,11 +1,30 @@
-import type { AboutPage, GalleryDocument, HomePage, SiteSettings } from './types';
+import type { AboutPage, GalleryDocument, HomePage, SiteSettings, SocialLink } from './types';
+
+export const defaultSocialLinks: SocialLink[] = [
+  {
+    platform: 'facebook',
+    url: 'https://www.facebook.com/people/Eagles-United/61557290646207',
+  },
+  {
+    platform: 'instagram',
+    url: 'https://www.instagram.com/eaglesunitedwfc/',
+  },
+  {
+    platform: 'linkedin',
+    url: 'https://www.linkedin.com/in/eagles-united-wfc-461213376/',
+  },
+  {
+    platform: 'tiktok',
+    url: 'https://www.tiktok.com/@eaglesunitedwfc',
+  },
+];
 
 export const defaultSiteSettings: SiteSettings = {
   siteTitle: 'Eagles United WFC',
   contactEmail: 'eaglesuniteduk@gmail.com',
   address: 'New River Sports Centre\nWhite Hart Lane\nLondon N22 5QW',
   faAffiliationId: '108720',
-  socialLinks: [],
+  socialLinks: defaultSocialLinks,
   sponsors: [],
 };
 
