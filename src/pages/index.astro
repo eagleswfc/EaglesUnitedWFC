@@ -227,12 +227,12 @@ const temporaryAchievements = [
         title="Club News"
         subtitle="Updates from training, matches and the Eagles United community."
       />
-      <div class="mt-10 grid gap-6 lg:grid-cols-2">
+   <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
   {
     temporaryNews.map((item) => (
-      <article class="flex flex-col items-start overflow-hidden rounded-2xl border border-white/10 bg-charcoal-light/70 p-4 transition hover:border-white/20 sm:flex-row sm:items-center gap-4 sm:gap-6">
+      <article class="flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-charcoal-light/70 transition hover:border-white/20">
         
-        <div class="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-charcoal/80 sm:h-32 sm:w-32">
+        <div class="relative h-48 w-full shrink-0 overflow-hidden bg-charcoal/80 sm:h-56">
           <img 
             src={item.image} 
             alt={item.title} 
@@ -242,12 +242,12 @@ const temporaryAchievements = [
           />
         </div>
 
-        <div class="flex flex-1 flex-col justify-center w-full">
-          <span class="mb-1 text-xs font-bold uppercase tracking-[0.2em] text-eagles-red">
+        <div class="flex flex-1 flex-col p-6">
+          <span class="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-eagles-red">
             {item.date}
           </span>
-          <h3 class="mb-2 text-lg font-bold text-white">{item.title}</h3>
-          <p class="text-sm leading-relaxed text-white/70 line-clamp-2">
+          <h3 class="mb-3 text-lg font-bold text-white">{item.title}</h3>
+          <p class="flex-1 text-sm leading-relaxed text-white/70 line-clamp-3">
             {item.excerpt}
           </p>
         </div>
