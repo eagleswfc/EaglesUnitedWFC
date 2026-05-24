@@ -23,8 +23,42 @@ const about = await getAboutPage();
 const gallery = await getGallery();
 const images = await getGalleryCarouselImages();
 
+const fallbackImages = [
+  { id: 'fallback-1', src: '/images/eagles.avif', alt: 'Eagles United action shot' },
+  { id: 'fallback-2', src: '/images/eagles2.avif', alt: 'Eagles United action shot' },
+  { id: 'fallback-3', src: '/images/eagles3.avif', alt: 'Eagles United action shot' },
+  { id: 'fallback-4', src: '/images/eagles4.avif', alt: 'Eagles United action shot' },
+];
+
+const displayImages = images && images.length > 0 ? images : fallbackImages;
+
 const storyParagraphs = blocksToParagraphs(about.story);
 const achievementParagraphs = blocksToParagraphs(about.achievements);
+
+const temporaryNews = [
+  {
+    title: "Looking for a womens football team for next season",
+    date: "15 May 2026",
+    excerpt: "Nothing too serious but ambitious. Join Eagles United WFC.",
+    image: "/images/eagles5.avif",
+    tag: "Recruitment"
+  },
+  {
+    title: "Training",
+    date: "10 May 2026",
+    excerpt: "Players & Goalkeeper wanted!",
+    image: "/images/eagles6.avif",
+    tag: "Training"
+  },
+  {
+    title: "Sponsors required",
+    date: "5 May 2026",
+    excerpt: "Local businesses, your chance to make an impact!",
+    image: "/images/eagles7.avif",
+    tag: "Sponsors"
+  }
+];
+
 ---
 
 <BaseLayout
@@ -160,24 +194,35 @@ const achievementParagraphs = blocksToParagraphs(about.achievements);
         title="Club News"
         subtitle="Updates from training, matches and the Eagles United community."
       />
-      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {
-          Array.from({ length: 3 }).map((_, index) => (
-            <article class="flex flex-col rounded-2xl border border-white/10 bg-charcoal-light/70 p-6">
-              <p class="text-xs font-bold uppercase tracking-[0.2em] text-eagles-red">
-                Coming soon
-              </p>
-              <h3 class="mt-3 text-lg font-bold text-white">News story {index + 1}</h3>
-              <p class="mt-3 flex-1 text-sm leading-relaxed text-white/70">
-                Club news and match reports will appear here once published.
-              </p>
-              <span class="mt-6 inline-block text-xs font-semibold uppercase tracking-wide text-white/40">
-                Placeholder
-              </span>
-            </article>
-          ))
-        }
-      </div>
+      <div class="mt-10 grid gap-6 lg:grid-cols-2">
+  {
+    temporaryNews.map((item) => (
+      <article class="flex flex-col items-start overflow-hidden rounded-2xl border border-white/10 bg-charcoal-light/70 p-4 transition hover:border-white/20 sm:flex-row sm:items-center gap-4 sm:gap-6">
+        
+        <div class="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-charcoal/80 sm:h-32 sm:w-32">
+          <img 
+            src={item.image} 
+            alt={item.title} 
+            class="news-image h-full w-full cursor-pointer object-contain transition duration-300 hover:scale-105" 
+            title="Double-click to enlarge"
+            loading="lazy" 
+          />
+        </div>
+
+        <div class="flex flex-1 flex-col justify-center w-full">
+          <span class="mb-1 text-xs font-bold uppercase tracking-[0.2em] text-eagles-red">
+            {item.date}
+          </span>
+          <h3 class="mb-2 text-lg font-bold text-white">{item.title}</h3>
+          <p class="text-sm leading-relaxed text-white/70 line-clamp-2">
+            {item.excerpt}
+          </p>
+        </div>
+
+      </article>
+    ))
+  }
+</div>
     </div>
   </section>
 
@@ -189,7 +234,7 @@ const achievementParagraphs = blocksToParagraphs(about.achievements);
     />
 
     <div class="mt-10">
-      <GalleryCarousel client:load images={images} />
+      <GalleryCarousel client:load images={displayImages} />
     </div>
   </section>
 
@@ -212,5 +257,63 @@ const achievementParagraphs = blocksToParagraphs(about.achievements);
       <ContactForm />
     </div>
   </section>
+
+  <div id="image-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 p-4 opacity-0 transition-opacity duration-300">
+  <button id="close-modal" class="absolute right-6 top-6 rounded-full bg-white/10 p-2 text-white transition hover:bg-eagles-red hover:text-white">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  </button>
+  <img id="modal-image" src="" alt="Enlarged view" class="max-h-[90vh] max-w-[90vw] rounded-lg object-contain shadow-2xl" />
+</div>
+
+<script>
+  const images = document.querySelectorAll('.news-image');
+  const modal = document.getElementById('image-modal');
+  const modalImg = document.getElementById('modal-image') as HTMLImageElement;
+  const closeBtn = document.getElementById('close-modal');
+
+  // Open modal on double click
+  images.forEach(img => {
+    img.addEventListener('dblclick', (e) => {
+      if (modal && modalImg && e.target instanceof HTMLImageElement) {
+        modalImg.src = e.target.src;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        
+        // Slight delay to allow display:flex to apply before transitioning opacity
+        setTimeout(() => {
+          modal.classList.remove('opacity-0');
+          modal.classList.add('opacity-100');
+        }, 10);
+      }
+    });
+  });
+
+  // Close modal logic
+  const closeModal = () => {
+    if (modal) {
+      modal.classList.remove('opacity-100');
+      modal.classList.add('opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        if (modalImg) modalImg.src = '';
+      }, 300); // Matches the duration-300 class
+    }
+  };
+
+  closeBtn?.addEventListener('click', closeModal);
+  
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal(); // Close if clicking the background
+  });
+  
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !modal?.classList.contains('hidden')) {
+      closeModal();
+    }
+  });
+</script>
 
 </BaseLayout>
