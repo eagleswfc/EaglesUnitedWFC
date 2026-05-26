@@ -121,26 +121,27 @@ const socialLinks =
 
     <div>
       <h2 class="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-eagles-red">Follow Us</h2>
-      <ul class="flex flex-col gap-3">
-        {
-          socialLinks.map((link) => (
-            <li>
-              <a
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="group block transition-transform hover:scale-110"
-              >
-                <img
-                  src={`/${link.platform}.avif`}
-                  alt={`${link.platform} logo`}
-                  class="h-6 w-6 object-contain opacity-75 transition group-hover:opacity-100"
-                />
-              </a>
-            </li>
-          ))
-        }
-      </ul>
+      <ul class="flex flex-wrap items-center gap-4">
+  {
+    settings.socialLinks?.map((link) => (
+      <li>
+        <a
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Follow us on ${link.platform}`}
+          class="group block transition-transform hover:scale-110"
+        >
+          <img 
+            src={`/${link.platform}.avif`} 
+            alt={`${link.platform} logo`} 
+            class="h-6 w-6 object-contain opacity-75 transition group-hover:opacity-100" 
+          />
+        </a>
+      </li>
+    ))
+  }
+</ul>
     </div>
   </div>
 
