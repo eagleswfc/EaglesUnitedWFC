@@ -31,7 +31,29 @@ const displayList = list.length < 6 ? [...list, ...list, ...list] : list;
       Proudly Supported By
     </h2>
     
-    <div class="relative w-full overflow-hidden flex group/marquee [mask-image:linear-gradient(to_right,transparent,white_15%,white_85%,transparent)]">
+    {/* Static grid for mobile viewports */}
+    <div class="flex flex-wrap items-center justify-center gap-10 md:hidden">
+      {list.map((sponsor) => {
+        const content = (
+          <img
+            src={sponsor.src}
+            alt={sponsor.name}
+            class="h-14 w-auto max-w-[150px] object-contain opacity-70 transition duration-300 hover:opacity-100"
+            loading="lazy"
+          />
+        );
+        return sponsor.url ? (
+          <a href={sponsor.url} target="_blank" rel="noopener noreferrer" class="flex items-center justify-center">
+            {content}
+          </a>
+        ) : (
+          <div class="flex items-center justify-center">{content}</div>
+        );
+      })}
+    </div>
+
+    {/* Scrolling marquee for desktop viewports */}
+    <div class="hidden md:flex relative w-full overflow-hidden group/marquee [mask-image:linear-gradient(to_right,transparent,white_15%,white_85%,transparent)]">
       <!-- First Marquee Set -->
       <div class="flex animate-marquee shrink-0 gap-16 min-w-full items-center justify-around group-hover/marquee:[animation-play-state:paused] cursor-pointer">
         {displayList.map((sponsor) => {
