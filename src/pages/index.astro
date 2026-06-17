@@ -6,6 +6,7 @@ import InfoCard from '../components/InfoCard.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import Sponsors from '../components/Sponsors.astro';
+import JukeboxAchievements from '../components/JukeboxAchievements';
 import { defaultContact } from '../lib/fallbacks';
 import {
   blocksToParagraphs,
@@ -153,26 +154,11 @@ const temporaryAchievements = [
     </div>
 
     <div class="border-t border-white/10 bg-charcoal-light/30 py-16">
-      <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           title={about.achievementsTitle ?? 'Leagues and achievements'}
         />
-        <div class="mt-10 grid gap-6 md:grid-cols-3">
-  {
-    temporaryAchievements.map((item) => (
-      <div class="relative group z-0 isolate flex flex-col h-full">
-        <div class="absolute inset-0 rounded-2xl bg-white/[0.01] border border-white/5 translate-x-3 translate-y-3 rotate-1 -z-20 transition duration-500 group-hover:translate-x-4 group-hover:translate-y-4 group-hover:rotate-2"></div>
-        <div class="absolute inset-0 rounded-2xl bg-white/[0.02] border border-white/5 translate-x-1.5 translate-y-1.5 -rotate-1 -z-10 transition duration-500 group-hover:translate-x-2 group-hover:translate-y-2 group-hover:-rotate-2"></div>
-        <article class="flex flex-col flex-1 rounded-2xl backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)] hover:bg-white/10 hover:border-eagles-red/40 hover:shadow-[0_0_20px_rgba(225,29,72,0.35),0_4px_30px_rgba(0,0,0,0.1)] p-6 transition duration-300">
-          <h3 class="mb-3 text-3xl font-black text-eagles-red">{item.year}</h3>
-          <p class="text-sm leading-relaxed text-white/80 sm:text-base flex-1">
-            {item.text}
-          </p>
-        </article>
-      </div>
-    ))
-  }
-</div>
+        <JukeboxAchievements client:load achievements={temporaryAchievements} />
         <p class="mt-8 text-sm text-white/60">
           Follow our progress in the
           <a

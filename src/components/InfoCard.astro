@@ -7,7 +7,11 @@ interface Props {
 const { title, body } = Astro.props;
 ---
 
-<article class="rounded-2xl border border-white/10 bg-charcoal-light/80 p-6 shadow-lg shadow-black/20">
-  <h3 class="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-eagles-red">{title}</h3>
-  <div class="space-y-2 text-sm leading-relaxed text-white/85 sm:text-base" set:html={body} />
-</article>
+<div class="relative group z-0 isolate flex flex-col h-full">
+  <div class="absolute inset-0 rounded-2xl bg-white/[0.01] border border-white/5 translate-x-3 translate-y-3 rotate-1 -z-20 transition duration-500 group-hover:translate-x-4 group-hover:translate-y-4 group-hover:rotate-2"></div>
+  <div class="absolute inset-0 rounded-2xl bg-white/[0.02] border border-white/5 translate-x-1.5 translate-y-1.5 -rotate-1 -z-10 transition duration-500 group-hover:translate-x-2 group-hover:translate-y-2 group-hover:-rotate-2"></div>
+  <article class="flex flex-col flex-1 rounded-2xl backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)] hover:bg-white/10 hover:border-eagles-red/40 hover:shadow-[0_0_20px_rgba(225,29,72,0.35),0_4px_30px_rgba(0,0,0,0.1)] p-6 transition duration-300">
+    <h3 class="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-eagles-red">{title}</h3>
+    <div class="space-y-2 text-sm leading-relaxed text-white/85 sm:text-base flex-1" set:html={body} />
+  </article>
+</div>
