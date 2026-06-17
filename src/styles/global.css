@@ -8,6 +8,8 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 
   --animate-heartbeat: heartbeat 3s ease-in-out infinite;
+  --animate-marquee: marquee 25s linear infinite;
+  --animate-breath: breath 8s ease-in-out infinite;
 
   @keyframes heartbeat {
     0%,
@@ -16,6 +18,27 @@
     }
     50% {
       transform: scale(1.05);
+    }
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0%);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  @keyframes breath {
+    0%,
+    100% {
+      transform: translateX(-50%) scale(0.9);
+      opacity: 0.6;
+    }
+    50% {
+      transform: translateX(-50%) scale(1.15);
+      opacity: 1;
     }
   }
 }
