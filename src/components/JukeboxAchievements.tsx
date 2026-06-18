@@ -60,9 +60,9 @@ export default function JukeboxAchievements({ achievements }: JukeboxAchievement
 
   // Desktop layout: Jukebox reel fanned layout
   return (
-    <div className="relative mt-16 select-none">
+    <div className="relative mt-6 select-none">
       {/* Crate Deck Area containing fanned out cards */}
-      <div className="relative w-full h-[360px] mx-auto overflow-visible flex items-center justify-center">
+      <div className="relative w-full h-[260px] mx-auto overflow-visible flex items-center justify-center">
         {achievements.map((item, idx) => {
           const isSelected = selectedItem?.year === item.year;
           
@@ -99,7 +99,7 @@ export default function JukeboxAchievements({ achievements }: JukeboxAchievement
                 zIndex: 20,
                 transition: { duration: 0.2, ease: "easeOut" }
               }}
-              className="absolute bottom-10 left-1/2 -ml-[130px] w-[260px] h-[190px] flex flex-col justify-between rounded-2xl backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)] hover:bg-white/10 hover:border-eagles-red/40 hover:shadow-[0_0_20px_rgba(225,29,72,0.35),0_4px_30px_rgba(0,0,0,0.1)] p-6 transition-colors duration-300 cursor-zoom-in group"
+              className="absolute bottom-2 left-1/2 -ml-[130px] w-[260px] h-[190px] flex flex-col justify-between rounded-2xl backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)] hover:bg-white/10 hover:border-eagles-red/40 hover:shadow-[0_0_20px_rgba(225,29,72,0.35),0_4px_30px_rgba(0,0,0,0.1)] p-6 transition-colors duration-300 cursor-zoom-in group"
             >
               <div className="flex items-center justify-between">
                 <h3 className="text-3xl font-black text-eagles-red tracking-tight">{item.year}</h3>
