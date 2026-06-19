@@ -1,6 +1,6 @@
 ---
-import { imageUrl } from '../lib/image';
-import type { Sponsor } from '../lib/types';
+import { imageUrl } from "../lib/image";
+import type { Sponsor } from "../lib/types";
 
 interface Props {
   sponsors?: Sponsor[];
@@ -11,14 +11,23 @@ const { sponsors = [] } = Astro.props;
 const hasSanitySponsors = sponsors.length > 0;
 
 const list = hasSanitySponsors
-  ? sponsors.flatMap(sponsor => {
+  ? sponsors.flatMap((sponsor) => {
       const logoSrc = imageUrl(sponsor.logo, { width: 250, quality: 90 });
-      return logoSrc ? [{ src: logoSrc, name: sponsor.name ?? 'Sponsor logo', url: sponsor.url ?? null }] : [];
+      return logoSrc
+        ? [
+            {
+              src: logoSrc,
+              name: sponsor.name ?? "Sponsor logo",
+              url: sponsor.url ?? null,
+            },
+          ]
+        : [];
     })
   : [
       { src: "/specsavers.avif", name: "Specsavers logo", url: null },
+      { src: "/formation.avif", name: "Formation logo", url: null },
       { src: "/haringey.avif", name: "Haringey London logo", url: null },
-      { src: "/sported.avif", name: "Sported logo", url: null }
+      { src: "/sported.avif", name: "Sported logo", url: null },
     ];
 
 // Ensure we have enough logos to fill the screen width and scroll smoothly
@@ -27,73 +36,103 @@ const displayList = list.length < 6 ? [...list, ...list, ...list] : list;
 
 <div class="border-y border-white/10 bg-charcoal-light/20 py-12">
   <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-    <h2 class="mb-8 text-center text-xs font-bold uppercase tracking-[0.25em] text-white/50">
+    <h2
+      class="mb-8 text-center text-xs font-bold uppercase tracking-[0.25em] text-white/50"
+    >
       Proudly Supported By
     </h2>
-    
+
     {/* Static grid for mobile viewports */}
     <div class="flex flex-wrap items-center justify-center gap-10 md:hidden">
-      {list.map((sponsor) => {
-        const content = (
-          <img
-            src={sponsor.src}
-            alt={sponsor.name}
-            class="h-14 w-auto max-w-[150px] object-contain opacity-70 transition duration-300 hover:opacity-100"
-            loading="lazy"
-          />
-        );
-        return sponsor.url ? (
-          <a href={sponsor.url} target="_blank" rel="noopener noreferrer" class="flex items-center justify-center">
-            {content}
-          </a>
-        ) : (
-          <div class="flex items-center justify-center">{content}</div>
-        );
-      })}
+      {
+        list.map((sponsor) => {
+          const content = (
+            <img
+              src={sponsor.src}
+              alt={sponsor.name}
+              class="h-14 w-auto max-w-[150px] object-contain opacity-70 transition duration-300 hover:opacity-100"
+              loading="lazy"
+            />
+          );
+          return sponsor.url ? (
+            <a
+              href={sponsor.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center justify-center"
+            >
+              {content}
+            </a>
+          ) : (
+            <div class="flex items-center justify-center">{content}</div>
+          );
+        })
+      }
     </div>
 
     {/* Scrolling marquee for desktop viewports */}
-    <div class="hidden md:flex relative w-full overflow-hidden group/marquee [mask-image:linear-gradient(to_right,transparent,white_15%,white_85%,transparent)]">
+    <div
+      class="hidden md:flex relative w-full overflow-hidden group/marquee [mask-image:linear-gradient(to_right,transparent,white_15%,white_85%,transparent)]"
+    >
       <!-- First Marquee Set -->
-      <div class="flex animate-marquee shrink-0 gap-16 min-w-full items-center justify-around group-hover/marquee:[animation-play-state:paused] cursor-pointer">
-        {displayList.map((sponsor) => {
-          const content = (
-            <img
-              src={sponsor.src}
-              alt={sponsor.name}
-              class="h-16 w-auto max-w-[180px] object-contain opacity-60 transition duration-300 hover:opacity-100 hover:scale-105"
-              loading="lazy"
-            />
-          );
-          return sponsor.url ? (
-            <a href={sponsor.url} target="_blank" rel="noopener noreferrer" class="flex items-center justify-center">
-              {content}
-            </a>
-          ) : (
-            <div class="flex items-center justify-center">{content}</div>
-          );
-        })}
+      <div
+        class="flex animate-marquee shrink-0 gap-16 min-w-full items-center justify-around group-hover/marquee:[animation-play-state:paused] cursor-pointer"
+      >
+        {
+          displayList.map((sponsor) => {
+            const content = (
+              <img
+                src={sponsor.src}
+                alt={sponsor.name}
+                class="h-16 w-auto max-w-[180px] object-contain opacity-60 transition duration-300 hover:opacity-100 hover:scale-105"
+                loading="lazy"
+              />
+            );
+            return sponsor.url ? (
+              <a
+                href={sponsor.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center justify-center"
+              >
+                {content}
+              </a>
+            ) : (
+              <div class="flex items-center justify-center">{content}</div>
+            );
+          })
+        }
       </div>
-      
+
       <!-- Second (Duplicated) Marquee Set for Infinite Scroll loop -->
-      <div class="flex animate-marquee shrink-0 gap-16 min-w-full items-center justify-around group-hover/marquee:[animation-play-state:paused] cursor-pointer" aria-hidden="true">
-        {displayList.map((sponsor) => {
-          const content = (
-            <img
-              src={sponsor.src}
-              alt={sponsor.name}
-              class="h-16 w-auto max-w-[180px] object-contain opacity-60 transition duration-300 hover:opacity-100 hover:scale-105"
-              loading="lazy"
-            />
-          );
-          return sponsor.url ? (
-            <a href={sponsor.url} target="_blank" rel="noopener noreferrer" class="flex items-center justify-center">
-              {content}
-            </a>
-          ) : (
-            <div class="flex items-center justify-center">{content}</div>
-          );
-        })}
+      <div
+        class="flex animate-marquee shrink-0 gap-16 min-w-full items-center justify-around group-hover/marquee:[animation-play-state:paused] cursor-pointer"
+        aria-hidden="true"
+      >
+        {
+          displayList.map((sponsor) => {
+            const content = (
+              <img
+                src={sponsor.src}
+                alt={sponsor.name}
+                class="h-16 w-auto max-w-[180px] object-contain opacity-60 transition duration-300 hover:opacity-100 hover:scale-105"
+                loading="lazy"
+              />
+            );
+            return sponsor.url ? (
+              <a
+                href={sponsor.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center justify-center"
+              >
+                {content}
+              </a>
+            ) : (
+              <div class="flex items-center justify-center">{content}</div>
+            );
+          })
+        }
       </div>
     </div>
   </div>
