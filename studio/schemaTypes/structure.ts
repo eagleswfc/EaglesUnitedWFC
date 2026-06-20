@@ -1,6 +1,6 @@
 import type { StructureResolver } from 'sanity/structure';
 
-const singletonIds = new Set(['siteSettings', 'homePage', 'aboutPage', 'gallery']);
+const singletonIds = new Set(['siteSettings', 'homePage', 'aboutPage', 'achievementsPage', 'sponsors', 'footer', 'gallery']);
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -18,6 +18,18 @@ export const structure: StructureResolver = (S) =>
         .title('About Page')
         .id('aboutPage')
         .child(S.document().schemaType('aboutPage').documentId('aboutPage')),
+      S.listItem()
+        .title('Leagues and Achievements')
+        .id('achievementsPage')
+        .child(S.document().schemaType('achievementsPage').documentId('achievementsPage')),
+      S.listItem()
+        .title('Sponsors')
+        .id('sponsors')
+        .child(S.document().schemaType('sponsors').documentId('sponsors')),
+      S.listItem()
+        .title('Footer Settings')
+        .id('footer')
+        .child(S.document().schemaType('footer').documentId('footer')),
       S.listItem()
         .title('Gallery')
         .id('gallery')

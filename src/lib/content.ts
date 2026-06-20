@@ -1,19 +1,33 @@
 import {
   defaultAboutPage,
+  defaultAchievementsPage,
+  defaultFooterSettings,
   defaultGallery,
   defaultHomePage,
   defaultSiteSettings,
+  defaultSponsors,
 } from './fallbacks';
 import { imageUrl } from './image';
-import { aboutPageQuery, galleryQuery, homePageQuery, siteSettingsQuery } from './queries';
+import {
+  aboutPageQuery,
+  achievementsPageQuery,
+  footerQuery,
+  galleryQuery,
+  homePageQuery,
+  siteSettingsQuery,
+  sponsorsQuery,
+} from './queries';
 import { isSanityConfigured, sanityClient } from './sanity';
 import type {
   AboutPage,
+  AchievementsPage,
   CarouselImage,
+  FooterSettings,
   GalleryDocument,
   HomePage,
   PortableTextBlock,
   SiteSettings,
+  SponsorsDocument,
 } from './types';
 
 async function fetchSanity<T>(query: string): Promise<T | null> {
@@ -31,6 +45,16 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   return { ...defaultSiteSettings, ...data };
 }
 
+export async function getSponsors(): Promise<SponsorsDocument> {
+  const data = await fetchSanity<SponsorsDocument>(sponsorsQuery);
+  return { ...defaultSponsors, ...data };
+}
+
+export async function getFooterSettings(): Promise<FooterSettings> {
+  const data = await fetchSanity<FooterSettings>(footerQuery);
+  return { ...defaultFooterSettings, ...data };
+}
+
 export async function getHomePage(): Promise<HomePage> {
   const data = await fetchSanity<HomePage>(homePageQuery);
   return { ...defaultHomePage, ...data };
@@ -39,6 +63,11 @@ export async function getHomePage(): Promise<HomePage> {
 export async function getAboutPage(): Promise<AboutPage> {
   const data = await fetchSanity<AboutPage>(aboutPageQuery);
   return { ...defaultAboutPage, ...data };
+}
+
+export async function getAchievementsPage(): Promise<AchievementsPage> {
+  const data = await fetchSanity<AchievementsPage>(achievementsPageQuery);
+  return { ...defaultAchievementsPage, ...data };
 }
 
 export async function getGallery(): Promise<GalleryDocument> {
@@ -69,7 +98,7 @@ export async function getGalleryCarouselImages(): Promise<CarouselImage[]> {
   if (!gallery.images?.length) return [];
 
   return gallery.images
-    .map((image, index) => {
+    .map((image, index): CarouselImage | null => {
       const src = imageUrl(image, { width: 1600, quality: 85 });
       if (!src) return null;
       return {

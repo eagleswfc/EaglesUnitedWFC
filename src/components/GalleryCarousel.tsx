@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { CarouselImage } from '../lib/types';
 
-const AUTO_ADVANCE_MS = 10_000;
 
 interface GalleryCarouselProps {
   images: CarouselImage[];
+  transitionInterval?: number | null;
 }
 
-export default function GalleryCarousel({ images }: GalleryCarouselProps) {
+export default function GalleryCarousel({ images, transitionInterval }: GalleryCarouselProps) {
   const [index, setIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
@@ -24,11 +24,13 @@ export default function GalleryCarousel({ images }: GalleryCarouselProps) {
     setIndex((current) => (current - 1 + total) % total);
   }, [total]);
 
+  const intervalSeconds = transitionInterval && transitionInterval > 0 ? transitionInterval : 10;
+
   useEffect(() => {
     if (total <= 1) return;
-    const timer = window.setInterval(goNext, AUTO_ADVANCE_MS);
+    const timer = window.setInterval(goNext, intervalSeconds * 1000);
     return () => window.clearInterval(timer);
-  }, [goNext, total]);
+  }, [goNext, total, intervalSeconds]);
 
   useEffect(() => {
     if (!lightboxOpen) return;

@@ -7,20 +7,27 @@ import SectionHeading from '../components/SectionHeading.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import Sponsors from '../components/Sponsors.astro';
 import JukeboxAchievements from '../components/JukeboxAchievements';
-import { defaultContact } from '../lib/fallbacks';
+import { sanityClient } from '../lib/sanity';
 import {
   blocksToParagraphs,
   getAboutPage,
+  getAchievementsPage,
+  getFooterSettings,
   getGallery,
   getGalleryCarouselImages,
   getHomePage,
   getSiteSettings,
+  getSponsors,
   multilineToHtml,
 } from '../lib/content';
 
 const settings = await getSiteSettings();
 const home = await getHomePage();
 const about = await getAboutPage();
+const achievementsPage = await getAchievementsPage();
+const leagues = achievementsPage.leagues;
+const sponsorsDoc = await getSponsors();
+const footer = await getFooterSettings();
 const gallery = await getGallery();
 const images = await getGalleryCarouselImages();
 
@@ -34,7 +41,23 @@ const fallbackImages = [
 const displayImages = images && images.length > 0 ? images : fallbackImages;
 
 const storyParagraphs = blocksToParagraphs(about.story);
-const achievementParagraphs = blocksToParagraphs(about.achievements);
+
+const liveNews = await sanityClient.fetch<any[]>('*[_type == "news"] | order(date desc) { title, date, excerpt, "image": image.asset->url }');
+
+const formatDate = (dateStr: string) => {
+  if (!dateStr) return '';
+  try {
+    const parts = dateStr.split('-');
+    if (parts.length !== 3) return dateStr;
+    const [year, month, day] = parts;
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthIndex = parseInt(month, 10) - 1;
+    const formattedDay = parseInt(day, 10);
+    return `${formattedDay} ${months[monthIndex]} ${year}`;
+  } catch (e) {
+    return dateStr;
+  }
+};
 
 const temporaryNews = [
   {
@@ -60,27 +83,13 @@ const temporaryNews = [
   }
 ];
 
-const temporaryAchievements = [
-  {
-    year: "2024",
-    text: "Won the All Nation's 5aside B league twice."
-  },
-  {
-    year: "2025",
-    text: "Competed in All Nation's 5aside and 8aside leagues, and the Super5 5aside league, winning the latter one season. We also organized our first own successful tournament with 10 teams."
-  },
-  {
-    year: "2026",
-    text: "Continuing to compete in the All Nation's 8aside league and the Super5 5aside league. We will participate in tournaments and are planning to organize our own tournament again."
-  }
-];
-
 ---
 
 <BaseLayout
   title="Eagles United WFC | Women's Football in Haringey"
   description={home.heroSubtitle}
   settings={settings}
+  footer={footer}
 >
   <section class="relative overflow-hidden border-b border-white/10">
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(225,29,72,0.25),transparent_55%)]"></div>
@@ -156,30 +165,33 @@ const temporaryAchievements = [
     <div class="border-t border-white/10 bg-charcoal-light/30 py-16">
       <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          title={about.achievementsTitle ?? 'Leagues and achievements'}
+          title={achievementsPage.title ?? 'Leagues and achievements'}
         />
-        <JukeboxAchievements client:load achievements={temporaryAchievements} />
-        <br />
-        <p class="mt-8 text-sm text-white/60">
-          Follow our progress in the
-          <a
-            href="https://citygoalslondon.leaguerepublic.com/index.html"
-            class="ml-1 text-eagles-red underline-offset-2 hover:underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            All Nation's 8aside league
-          </a>
-          and the
-          <a
-            href="https://www.super5league.com/"
-            class="ml-1 text-eagles-red underline-offset-2 hover:underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Super5 league
-          </a>.
-        </p>
+        {achievementsPage.achievements && achievementsPage.achievements.length > 0 && (
+          <JukeboxAchievements client:load achievements={achievementsPage.achievements} />
+        )}
+        {leagues && leagues.length > 0 && (
+          <>
+            <br />
+            <p class="mt-8 text-sm text-white/60">
+              Follow our progress in the
+              {leagues.map((league, idx) => (
+                <>
+                  {idx > 0 && idx === leagues.length - 1 ? ' and the ' : idx > 0 ? ', the ' : ' '}
+                  <a
+                    href={league.url}
+                    class="text-eagles-red underline-offset-2 hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {league.name}
+                  </a>
+                </>
+              ))}
+              .
+            </p>
+          </>
+        )}
       </div>
     </div>
   </section>
@@ -225,7 +237,7 @@ const temporaryAchievements = [
       />
    <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
   {
-    temporaryNews.map((item) => (
+    liveNews.map((item) => (
       <div class="relative group z-0 isolate flex flex-col h-full">
         <div class="absolute inset-0 rounded-2xl bg-white/[0.01] border border-white/5 translate-x-3 translate-y-3 rotate-1 -z-20 transition duration-500 group-hover:translate-x-4 group-hover:translate-y-4 group-hover:rotate-2"></div>
         <div class="absolute inset-0 rounded-2xl bg-white/[0.02] border border-white/5 translate-x-1.5 translate-y-1.5 -rotate-1 -z-10 transition duration-500 group-hover:translate-x-2 group-hover:translate-y-2 group-hover:-rotate-2"></div>
@@ -243,7 +255,7 @@ const temporaryAchievements = [
 
           <div class="flex flex-1 flex-col p-6">
             <span class="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-eagles-red">
-              {item.date}
+              {formatDate(item.date)}
             </span>
             <h3 class="mb-3 text-lg font-bold text-white">{item.title}</h3>
             <p class="flex-1 text-sm leading-relaxed text-white/70 line-clamp-3">
@@ -267,12 +279,12 @@ const temporaryAchievements = [
     />
 
     <div class="mt-10">
-      <GalleryCarousel client:load images={displayImages} />
+      <GalleryCarousel client:load images={displayImages} transitionInterval={gallery.transitionInterval} />
     </div>
   </section>
 
   <section id="sponsors">
-    <Sponsors sponsors={settings.sponsors} />
+    <Sponsors sponsors={sponsorsDoc.sponsors} />
   </section>
 
   <section id="contact" class="relative overflow-hidden">
@@ -281,8 +293,8 @@ const temporaryAchievements = [
       <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Contact"
-          title={defaultContact.pageTitle}
-          subtitle={defaultContact.intro}
+          title={settings.contactSectionTitle ?? 'Get in Touch'}
+          subtitle={settings.contactSectionSubtitle ?? "Whether you're looking to join our Thursday training sessions, inquire about sponsorship opportunities, or just say hello, drop us a message."}
         />
       </div>
     </div>

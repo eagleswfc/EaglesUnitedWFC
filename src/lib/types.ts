@@ -15,11 +15,20 @@ export interface Sponsor {
 export interface SiteSettings {
   siteTitle?: string;
   logo?: SanityImageSource;
-  contactEmail?: string;
-  contactPhone?: string;
-  address?: string;
-  socialLinks?: SocialLink[];
+  contactSectionTitle?: string;
+  contactSectionSubtitle?: string;
+}
+
+export interface SponsorsDocument {
   sponsors?: Sponsor[];
+}
+
+export interface FooterSettings {
+  contactEmail?: string;
+  address?: string;
+  trainingTimes?: string;
+  contactPhone?: string;
+  socialLinks?: SocialLink[];
   faAffiliationId?: string;
 }
 
@@ -54,8 +63,22 @@ export interface AboutPage {
   coachNote?: string;
   trainingNote?: string;
   values?: ValueItem[];
-  achievementsTitle?: string;
-  achievements?: PortableTextBlock[];
+}
+
+export interface AchievementItem {
+  title?: string;
+  description?: string;
+}
+
+export interface LeagueItem {
+  name?: string;
+  url?: string;
+}
+
+export interface AchievementsPage {
+  title?: string;
+  achievements?: AchievementItem[];
+  leagues?: LeagueItem[];
 }
 
 export interface GalleryImage {
@@ -68,6 +91,7 @@ export interface GalleryImage {
 export interface GalleryDocument {
   title?: string;
   description?: string;
+  transitionInterval?: number;
   images?: GalleryImage[];
 }
 

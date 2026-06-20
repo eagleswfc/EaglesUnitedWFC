@@ -1,38 +1,34 @@
 import { defineField, defineType } from 'sanity';
 
-export const siteSettings = defineType({
-  name: 'siteSettings',
-  title: 'Site Settings',
+export const footer = defineType({
+  name: 'footer',
+  title: 'Footer Settings',
   type: 'document',
   fields: [
-    defineField({
-      name: 'siteTitle',
-      title: 'Site Title',
-      type: 'string',
-      initialValue: 'Eagles United WFC',
-    }),
-    defineField({
-      name: 'logo',
-      title: 'Logo',
-      type: 'image',
-      options: { hotspot: true },
-    }),
     defineField({
       name: 'contactEmail',
       title: 'Contact Email',
       type: 'string',
+      initialValue: 'eaglesuniteduk@gmail.com',
       validation: (Rule) => Rule.email(),
-    }),
-    defineField({
-      name: 'contactPhone',
-      title: 'Contact Phone',
-      type: 'string',
     }),
     defineField({
       name: 'address',
       title: 'Training Address',
       type: 'text',
       rows: 3,
+      initialValue: 'New River Sports Centre\nWhite Hart Lane\nLondon N22 5QW',
+    }),
+    defineField({
+      name: 'trainingTimes',
+      title: 'Training Times',
+      type: 'string',
+      initialValue: 'Thursday 7pm to 8:30pm (£7 per session)',
+    }),
+    defineField({
+      name: 'contactPhone',
+      title: 'Contact Phone',
+      type: 'string',
     }),
     defineField({
       name: 'socialLinks',
@@ -53,6 +49,7 @@ export const siteSettings = defineType({
                   { title: 'Facebook', value: 'facebook' },
                   { title: 'Twitter / X', value: 'twitter' },
                   { title: 'TikTok', value: 'tiktok' },
+                  { title: 'LinkedIn', value: 'linkedin' },
                   { title: 'YouTube', value: 'youtube' },
                   { title: 'Other', value: 'other' },
                 ],
@@ -68,31 +65,12 @@ export const siteSettings = defineType({
       ],
     }),
     defineField({
-      name: 'sponsors',
-      title: 'Sponsors',
-      type: 'array',
-      of: [
-        defineField({
-          name: 'sponsor',
-          type: 'object',
-          fields: [
-            defineField({ name: 'name', title: 'Name', type: 'string' }),
-            defineField({ name: 'logo', title: 'Logo', type: 'image' }),
-            defineField({ name: 'url', title: 'Website URL', type: 'url' }),
-          ],
-          preview: {
-            select: { title: 'name', media: 'logo' },
-          },
-        }),
-      ],
-    }),
-    defineField({
       name: 'faAffiliationId',
       title: 'FA Affiliation ID',
       type: 'string',
     }),
   ],
   preview: {
-    prepare: () => ({ title: 'Site Settings' }),
+    prepare: () => ({ title: 'Footer Settings' }),
   },
 });

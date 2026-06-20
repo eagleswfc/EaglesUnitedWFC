@@ -1,4 +1,4 @@
-import type { AboutPage, GalleryDocument, HomePage, SiteSettings, SocialLink } from './types';
+import type { AboutPage, AchievementsPage, FooterSettings, GalleryDocument, HomePage, SiteSettings, SocialLink, SponsorsDocument } from './types';
 
 export const defaultSocialLinks: SocialLink[] = [
   {
@@ -21,11 +21,21 @@ export const defaultSocialLinks: SocialLink[] = [
 
 export const defaultSiteSettings: SiteSettings = {
   siteTitle: 'Eagles United WFC',
+  contactSectionTitle: 'Get in Touch',
+  contactSectionSubtitle:
+    "Whether you're looking to join our Thursday training sessions, inquire about sponsorship opportunities, or just say hello, drop us a message.",
+};
+
+export const defaultSponsors: SponsorsDocument = {
+  sponsors: [],
+};
+
+export const defaultFooterSettings: FooterSettings = {
   contactEmail: 'eaglesuniteduk@gmail.com',
   address: 'New River Sports Centre\nWhite Hart Lane\nLondon N22 5QW',
-  faAffiliationId: '108720',
+  trainingTimes: 'Thursday 7pm to 8:30pm (£7 per session)',
   socialLinks: defaultSocialLinks,
-  sponsors: [],
+  faAffiliationId: '108720',
 };
 
 export const defaultHomePage: HomePage = {
@@ -79,23 +89,32 @@ export const defaultAboutPage: AboutPage = {
         'Since our founding in 2024, we have competed in 5aside and 8aside leagues, took part in tournaments and organized our own successful tournament. We aim to continue growing, competing, and expanding into an 11aside team.',
     },
   ],
-  achievementsTitle: 'Leagues and achievements',
+};
+
+export const defaultAchievementsPage: AchievementsPage = {
+  title: 'Leagues and achievements',
   achievements: [
     {
-      _type: 'block',
-      children: [
-        {
-          text: "In 2024, we won the All Nation's 5aside B league twice.",
-        },
-      ],
+      title: '2024',
+      description: "Won the All Nation's 5aside B league twice.",
     },
     {
-      _type: 'block',
-      children: [
-        {
-          text: "In 2025, we competed in All Nation's 5aside and 8aside leagues, and the Super5 5aside league, winning the latter one season. We also organized our first own successful tournament with 10 teams. In 2026, we are continuing to compete in the All Nation's 8aside league and the Super5 5aside league. We will participate in tournaments and are planning to organize our own tournament again.",
-        },
-      ],
+      title: '2025',
+      description: "Competed in All Nation's 5aside and 8aside leagues, and the Super5 5aside league, winning the latter one season. We also organized our first own successful tournament with 10 teams.",
+    },
+    {
+      title: '2026',
+      description: "Continuing to compete in the All Nation's 8aside league and the Super5 5aside league. We will participate in tournaments and are planning to organize our own tournament again.",
+    },
+  ],
+  leagues: [
+    {
+      name: "All Nation's 8aside league",
+      url: 'https://citygoalslondon.leaguerepublic.com/index.html',
+    },
+    {
+      name: 'Super5 league',
+      url: 'https://www.super5league.com/',
     },
   ],
 };
@@ -103,13 +122,7 @@ export const defaultAboutPage: AboutPage = {
 export const defaultGallery: GalleryDocument = {
   title: 'Gallery',
   description: "Moments from training, matches and tournaments with Eagles United WFC.",
+  transitionInterval: 10,
   images: [],
 };
 
-export const defaultContact = {
-  pageTitle: 'Get in Touch',
-  intro:
-    "Whether you're looking to join our Thursday training sessions, inquire about sponsorship opportunities, or just say hello, drop us a message.",
-  location: 'New River Sports Centre White Hart Lane, London N22 5QW',
-  trainingTimes: 'Thursdays at 7:00 PM · £7 Per Session',
-};

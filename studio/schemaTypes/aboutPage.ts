@@ -53,18 +53,6 @@ export const aboutPage = defineType({
         }),
       ],
     }),
-    defineField({
-      name: 'achievementsTitle',
-      title: 'Achievements Section Title',
-      type: 'string',
-      initialValue: 'Leagues and achievements',
-    }),
-    defineField({
-      name: 'achievements',
-      title: 'Leagues and Achievements',
-      type: 'array',
-      of: [{ type: 'block' }],
-    }),
   ],
   preview: {
     prepare: () => ({ title: 'About Page' }),
