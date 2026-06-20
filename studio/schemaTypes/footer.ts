@@ -26,11 +26,6 @@ export const footer = defineType({
       initialValue: 'Thursday 7pm to 8:30pm (£7 per session)',
     }),
     defineField({
-      name: 'contactPhone',
-      title: 'Contact Phone',
-      type: 'string',
-    }),
-    defineField({
       name: 'socialLinks',
       title: 'Social Links',
       type: 'array',

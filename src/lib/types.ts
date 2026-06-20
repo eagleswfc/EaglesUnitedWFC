@@ -27,7 +27,6 @@ export interface FooterSettings {
   contactEmail?: string;
   address?: string;
   trainingTimes?: string;
-  contactPhone?: string;
   socialLinks?: SocialLink[];
   faAffiliationId?: string;
 }

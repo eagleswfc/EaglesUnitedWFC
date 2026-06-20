@@ -9,7 +9,6 @@ export const footerQuery = `*[_type == "footer"][0]{
   contactEmail,
   address,
   trainingTimes,
-  contactPhone,
   socialLinks,
   faAffiliationId
 }`;
