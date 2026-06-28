@@ -99,12 +99,7 @@ const temporaryNews = [
     <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(26,26,26,0.2),rgba(26,26,26,1))]"></div>
 
     <div class="relative mx-auto flex max-w-6xl flex-col items-center gap-8 px-4 py-16 text-center sm:px-6 sm:py-24 lg:px-8">
-      <img
-          src={heroBgUrl || "/images/eagles1.avif"}
-          alt="Eagles United WFC Team Squad"
-          class="h-full w-full object-cover object-center transition duration-700 group-hover:scale-105"
-          loading="lazy"
-      />
+      
       <div class="max-w-3xl space-y-4">
         <p class="text-xs font-bold uppercase tracking-[0.35em] text-eagles-red">Est. 2024</p>
         <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
@@ -121,11 +116,11 @@ const temporaryNews = [
   <div class="mx-auto max-w-4xl px-4 pt-12 sm:px-6 sm:pt-16 lg:px-8">
       <div class="group relative h-64 w-full overflow-hidden rounded-2xl border border-white/10 shadow-2xl sm:h-80 md:h-96 lg:h-[30rem]">
         <img
-          src="/images/eagles1.avif"
+          src={heroBgUrl || "/images/eagles1.avif"}
           alt="Eagles United WFC Team Squad"
           class="h-full w-full object-cover object-center transition duration-700 group-hover:scale-105"
           loading="lazy"
-        />
+      />
         <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-charcoal/60 to-transparent"></div>
       </div>
     </div>
