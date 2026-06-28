@@ -7,6 +7,7 @@ import SectionHeading from '../components/SectionHeading.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import Sponsors from '../components/Sponsors.astro';
 import JukeboxAchievements from '../components/JukeboxAchievements';
+import { imageUrl } from '../lib/image';
 import { sanityClient } from '../lib/sanity';
 import {
   blocksToParagraphs,
@@ -24,6 +25,7 @@ import {
 const settings = await getSiteSettings();
 const home = await getHomePage();
 const about = await getAboutPage();
+const heroBgUrl = home.heroImage ? imageUrl(home.heroImage).url() : null;
 const achievementsPage = await getAchievementsPage();
 const leagues = achievementsPage.leagues;
 const sponsorsDoc = await getSponsors();
@@ -92,6 +94,12 @@ const temporaryNews = [
   footer={footer}
 >
   <section class="relative overflow-hidden border-b border-white/10">
+    {heroBgUrl && (
+    <div 
+      class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 mix-blend-overlay"
+      style={`background-image: url('${heroBgUrl}');`}
+    ></div>
+  )}
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(225,29,72,0.25),transparent_55%)]"></div>
     <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(26,26,26,0.2),rgba(26,26,26,1))]"></div>
 
