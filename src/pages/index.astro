@@ -94,23 +94,16 @@ const temporaryNews = [
   footer={footer}
 >
   <section class="relative overflow-hidden border-b border-white/10">
-    {heroBgUrl && (
-    <div 
-      class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 mix-blend-overlay"
-      style={`background-image: url('${heroBgUrl}');`}
-    ></div>
-  )}
+   
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(225,29,72,0.25),transparent_55%)]"></div>
     <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(26,26,26,0.2),rgba(26,26,26,1))]"></div>
 
     <div class="relative mx-auto flex max-w-6xl flex-col items-center gap-8 px-4 py-16 text-center sm:px-6 sm:py-24 lg:px-8">
       <img
-        src="/images/EaglesUnitedWFC_Logo.png"
-        alt="Eagles United WFC logo"
-        width="140"
-        height="140"
-        class="h-28 w-28 animate-heartbeat rounded-full ring-4 ring-white/15 sm:h-36 sm:w-36"
-        loading="eager"
+          src={heroBgUrl || "/images/eagles1.avif"}
+          alt="Eagles United WFC Team Squad"
+          class="h-full w-full object-cover object-center transition duration-700 group-hover:scale-105"
+          loading="lazy"
       />
       <div class="max-w-3xl space-y-4">
         <p class="text-xs font-bold uppercase tracking-[0.35em] text-eagles-red">Est. 2024</p>
