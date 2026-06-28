@@ -25,7 +25,7 @@ import {
 const settings = await getSiteSettings();
 const home = await getHomePage();
 const about = await getAboutPage();
-const heroBgUrl = home.heroImage ? imageUrl(home.heroImage).url() : null;
+const heroBgUrl = home.heroImage ? imageUrl(home.heroImage) : null;
 const achievementsPage = await getAchievementsPage();
 const leagues = achievementsPage.leagues;
 const sponsorsDoc = await getSponsors();
