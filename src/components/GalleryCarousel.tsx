@@ -81,7 +81,7 @@ export default function GalleryCarousel({ images, transitionInterval }: GalleryC
               key={active.id}
               src={active.src}
               alt={active.alt}
-              className="h-full w-full cursor-zoom-in object-cover transition-opacity duration-500"
+              className="h-full w-full cursor-zoom-in object-contain transition-opacity duration-500"
               onDoubleClick={() => setLightboxOpen(true)}
               draggable={false}
             />
