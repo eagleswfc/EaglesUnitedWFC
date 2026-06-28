@@ -98,6 +98,9 @@ export async function getGalleryCarouselImages(): Promise<CarouselImage[]> {
   if (!gallery.images?.length) return [];
 
   return gallery.images
+    // 1. THIS IS THE FIX: Filter out any empty image blocks first
+    .filter((image: any) => image && image.asset && image.asset._ref)
+    // 2. Now safely map over the valid images
     .map((image, index): CarouselImage | null => {
       const src = imageUrl(image, { width: 1600, quality: 85 });
       if (!src) return null;
